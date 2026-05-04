@@ -7,11 +7,16 @@ pipeline {
                 bat 'mvn clean package'
             }
         }
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
     }
 
     post {
-        success {
-            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+        always {
+            junit 'target/surefire-reports/*.xml'
         }
     }
 }
